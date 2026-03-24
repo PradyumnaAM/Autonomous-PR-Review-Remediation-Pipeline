@@ -1,0 +1,14 @@
+{
+  "name": "pr-review-pipeline",
+  "private": true,
+  "workspaces": [
+    "github-client",
+    "webhook-server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=github-client && npm run build --workspace=webhook-server",
+    "start": "npm run start --workspace=webhook-server",
+    "dev": "npm run dev --workspace=webhook-server",
+    "install:python": "pip install -r agents/requirements.txt"
+  }
+}
