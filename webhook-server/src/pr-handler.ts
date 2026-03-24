@@ -71,7 +71,8 @@ export class PRHandler {
 
   private runOrchestrator(prData: PRData & { diff: string }): Promise<OrchestratorResult> {
     return new Promise((resolve, reject) => {
-      const child = spawn('python3', [ORCHESTRATOR_PATH], {
+      const pythonBin = process.platform === 'win32' ? 'python' : 'python3';
+      const child = spawn(pythonBin, [ORCHESTRATOR_PATH], {
         env: { ...process.env },
         stdio: ['pipe', 'pipe', 'pipe'],
       });

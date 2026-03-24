@@ -80,7 +80,22 @@ class BaseAgent:
                 ) from exc
 
             latency = time.monotonic() - t0
-            content = (response.text or "").strip()
+
+            # response.text raises ValueError when the response is blocked by
+            # safety filters or has no parts — extract text defensively.
+            try:
+                content = (response.text or "").strip()
+            except ValueError:
+                finish = (
+                    response.candidates[0].finish_reason.name
+                    if response.candidates
+                    else "UNKNOWN"
+                )
+                raise RuntimeError(
+                    f"[{self.agent_name}] Gemini returned no text content "
+                    f"(finish_reason={finish}). Response may have been blocked."
+                )
+
             tokens = (
                 response.usage_metadata.total_token_count
                 if response.usage_metadata

@@ -29,6 +29,7 @@ import logic_agent
 import quality_agent
 import security_agent
 import synthesis_agent
+import test_gen_agent
 
 # ─── Logging ─────────────────────────────────────────────────────────────────
 # Write to stderr so Node can capture stdout cleanly.
